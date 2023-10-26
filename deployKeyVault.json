@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deployKeyVault.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "resources": [
     {
@@ -10,19 +10,10 @@
       "properties": {
         "sku": {
           "family": "A",
-          "name": "A"
+          "name": "standard"
         },
-        "tenantId": "[parameters('tenant')]",
-        "accessPolicies": [
-          {
-                        "tenantId": "[subscription().tenantId]",
-                        "objectId": "[parameters('objectId')]",
-                        "permissions": {
-                            "keys": [ "All" ],
-                            "secrets": [ "All" ],
-                            "certificates" : [ "All" ]
-                        }
-        ],
+        "tenant": "[parameters('tenant')]",
+        "accessPolicies": [],
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
         "enabledForTemplateDeployment": true
