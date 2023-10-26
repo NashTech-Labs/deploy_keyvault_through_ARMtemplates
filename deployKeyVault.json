@@ -13,7 +13,16 @@
           "name": "standard"
         },
         "tenant": "[parameters('tenant')]",
-        "accessPolicies": [],
+        "accessPolicies": [
+          {
+                        "tenantId": "[subscription().tenantId]",
+                        "objectId": "[parameters('objectId')]",
+                        "permissions": {
+                            "keys": [ "All" ],
+                            "secrets": [ "All" ],
+                            "certificates" : [ "All" ]
+                        }
+        ],
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
         "enabledForTemplateDeployment": true
