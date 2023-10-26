@@ -5,15 +5,24 @@
     {
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2019-09-01",
-      "name": "[parameters('vaultName')]",
-      "location": "[parameters('location')]",
+      "name": "[parameters('keyVaultName')]",
+      "location": "[parameters('locationOfKeyVault')]",
       "properties": {
         "sku": {
           "family": "A",
-          "name": "standard"
+          "name": "A"
         },
-        "tenantId": "[parameters('tenantId')]",
-        "accessPolicies": [],
+        "tenantId": "[parameters('tenant')]",
+        "accessPolicies": [
+          {
+                        "tenantId": "[subscription().tenantId]",
+                        "objectId": "[parameters('objectId')]",
+                        "permissions": {
+                            "keys": [ "All" ],
+                            "secrets": [ "All" ],
+                            "certificates" : [ "All" ]
+                        }
+        ],
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
         "enabledForTemplateDeployment": true
@@ -21,19 +30,19 @@
     }
   ],
   "parameters": {
-    "vaultName": {
+    "keyVaultName": {
       "type": "string",
       "metadata": {
         "description": "Name of the Azure Key Vault"
       }
     },
-    "location": {
+    "locationOfKeyVault": {
       "type": "string",
       "metadata": {
         "description": "Location for the Key Vault"
       }
     },
-    "tenantId": {
+    "tenant": {
       "type": "string",
       "metadata": {
         "description": "Tenant ID"
@@ -43,7 +52,7 @@
   "outputs": {
     "keyVaultResourceId": {
       "type": "string",
-      "value": "[resourceId('Microsoft.KeyVault/vaults', parameters('vaultName'))]"
+      "value": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
     }
   }
 }
